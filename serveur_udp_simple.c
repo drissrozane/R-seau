@@ -6,7 +6,7 @@
 
 int main () {
 	char buf [80] ;
-	
+	typedef enum{DEPLACER, CREER, CONSTRUIRE}action;
 	int s, exp_len ;
 	struct sockaddr_in moi, client ,client2,client3;
 
@@ -91,43 +91,35 @@ int main () {
         memset (buf, 0, 80);
         strcpy (buf, "En attente d'autre joueurs...") ;
     	sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
-	printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+	    printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
         connexion++;
         
-        while(connexion!=4 && lancer_partie == 0){
-            if(connexion >=2){
-            memset (buf, 0, 80);
-            strcpy (buf, "Voulez Vous commencez la partie?") ;
-    	    sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
-	        printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+	    memset (buf, 0, 80);
+	    char msgen [20];
+	        if(en){
+	            strcpy(msgen,"Angleterre \n");
+	        } else{
+	           strcpy(msgen,"");
 	        }
-        }
-        if(reponse1 == oui && reponse2 == oui)
-        
-        }
-	memset (buf, 0, 80);
-	
-	char msgen [20];
-	if(en){
-	    strcpy(msgen,"Angleterre \n");
-	}
-	else{
-	   strcpy(msgen,"");
-	}
-	strcpy (buf, "Selectionnez une Nation:\n") ;
-	strcat(buf," France \n");
-	strcat(buf,msgen);
-	sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
-        printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
-        
-        memset (buf, 0, 80);
-	recvfrom (s, buf, 80, 0, (struct sockaddr *)&client, &exp_len) ;
-        printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ; 
-        memset (buf, 0, 80);
-        
+	        
+	        strcpy (buf, "Selectionnez une Nation:\n") ;
+	        strcat(buf," France \n");
+	        strcat(buf,msgen);
+	        sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+                printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+                
+                memset (buf, 0, 80);
+	        recvfrom (s, buf, 80, 0, (struct sockaddr *)&client, &exp_len) ;
+                printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ; 
+                memset (buf, 0, 80);
+                
         int france=1;
         int angle=2;
-        int choix=angle;
+        int choix;
+        
+        if(strncmp (buf, "Angleterre", strlen ("Angleterre"))){
+            choix=angle;
+        }
         
 	switch(choix){
 		case 1:
@@ -146,17 +138,103 @@ int main () {
 		//idem
 		break;
 	}
-		
+/*
+        while(connexion!=4 && lancer_partie == 0){
+            if(connexion >=2){
+            memset (buf, 0, 80);
+            strcpy (buf, "Voulez Vous commencez la partie?") ;
+    	    sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+	        printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+	        }
+        }
+        if(reponse1 == oui && reponse2 == oui)
+        
+        }
+*/	
 	//vous avez choisi 
 	memset (buf, 0, 80);
 	strcpy (buf, " vous allez commencer le jeu") ;
 	sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
         printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
         
-     memset (buf, 0, 80);
-	strcpy (buf, " vous allez attendre votre tour") ;
-	sendto (s, buf, 80, 0, (struct sockaddr *)&client1, sizeof client) ;
-        printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client1.sin_addr), ntohs (client1.sin_port) ) ;
+        int tour=0;
+    while(tour<=2 ){   
+    memset (buf, 0, 80);
+	strcpy (buf, "C'est a vous de jouer") ;
+	sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+	printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+    
+    //choix d'action
+    char msg0 [10];
+    char msg1 [10];
+    char msg2 [10];
+    strcpy (buf, "Selectionnez une action :\n") ;
+    strcpy (msg0, "DEPLA\n") ;
+    strcpy (msg1, "CREER\n") ;
+    strcpy (msg2, "CONST\n") ;
+	        strcat(buf,msg0);
+	        strcat(buf,msg1);
+	        strcat(buf,msg2);
+	        sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+                printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+                
+    //choix            
+    memset (buf, 0, 80);
+	recvfrom (s, buf, 80, 0, (struct sockaddr *)&client, &exp_len) ;
+    printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+    
+    int selection;
+    if(!strncmp (buf, "DEPLA", strlen ("DEPLA"))){
+        selection=1;
+    } 
+    if (!strncmp (buf, "CREER", strlen ("CREER"))){
+        selection=2;
+        } 
+    if (!strncmp (buf, "CONST", strlen ("CONST"))) {
+            selection=3;
+            }
+    
+    switch(selection){
+    
+        case 1 :
+        
+        memset (buf, 0, 80);
+	    strcpy (buf, "Indiquez les differents parametres :\nnbUnit posX posY nposX nposY") ;
+	    sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+	    printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+       
+        break;
+        case 2 : 
+        
+        memset (buf, 0, 80);
+	    strcpy (buf, "Indiquez les differents parametres") ;
+	    sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+	    printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+        
+        break;
+        case 3 : 
+        
+        memset (buf, 0, 80);
+	    strcpy (buf, "Indiquez les differents parametres") ;
+	    sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+	    printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+        
+        break;
+    
+    }
+        memset (buf, 0, 80);
+	    strcpy (buf, "Fin de tour") ;
+	    sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+	    printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+       
+     tour++;       
+    }
+    
+        memset (buf, 0, 80);
+	    strcpy (buf, "Fin de partie") ;
+	    sendto (s, buf, 80, 0, (struct sockaddr *)&client, sizeof client) ;
+	    printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (client.sin_addr), ntohs (client.sin_port) ) ;
+       
     /*    
     memset (buf, 0, 80);
 	strcpy (buf, " vous allez attendre votre tour") ;

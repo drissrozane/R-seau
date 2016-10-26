@@ -91,6 +91,7 @@ int main () {
             memset(buf,0,80);
             recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
             printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            
             /*
             j'ai séléctionné un pays
             */
@@ -100,12 +101,48 @@ int main () {
 	        sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur) ;
             printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
             
+            //vous allez commencer le jeu
             memset(buf,0,80);
             recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
             printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
            
+           int tour=0;
+           while(tour<=2){
+           
+           //c'est a vous de jouer
+            memset(buf,0,80);
+            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+           
+           //choix d'action
+            memset(buf,0,80);
+            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
             
+            
+            //premiere instruction
+            memset (buf, 0, 80);
+            scanf("%s",tmp);
+	        strcpy (buf, tmp) ;
+	        sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur) ;
+            printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            
+            //DEPLA
+            memset(buf,0,80);
+            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            tour++;
+            
+            //FIN DE TOUR
+            memset(buf,0,80);
+            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
         
+            //FIN DE PARTIE
+            memset(buf,0,80);
+            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
 	        close (s) ;
 	    }
 	}
