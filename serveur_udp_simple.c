@@ -8,7 +8,7 @@ int main () {
 	char buf [80] ;
 	typedef enum{DEPLACER, CREER, CONSTRUIRE}action;
 	int s, exp_len ;
-	struct sockaddr_in moi, client ,client2,client3;
+	struct sockaddr_in moi, client;
 
 	moi.sin_family = AF_INET ;
 	moi.sin_addr.s_addr = INADDR_ANY ;

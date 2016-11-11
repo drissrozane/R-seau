@@ -23,7 +23,7 @@ int main () {
 	*/
 
     memset (buf, 0, 80);
-	strcpy (buf, "") ;
+	strcpy (buf, "bonjour") ;
 	sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur) ;
         printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
     
