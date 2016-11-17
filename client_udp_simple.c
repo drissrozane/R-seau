@@ -9,6 +9,8 @@ int main () {
 	char buf [80],tmp [80] ;
 	int s, exp_len ;
 	struct sockaddr_in serveur ;
+	int reponse=0;
+	struct timeval timeVal;
 
 	s = socket (PF_INET, SOCK_DGRAM, 0) ;
 
@@ -23,26 +25,29 @@ int main () {
 	*/
 
     memset (buf, 0, 80);
-	strcpy (buf, "") ;
-	sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur) ;
+	strcpy (buf, "bonjour") ;
+	if(sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur)!=-1){
         printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
-    
+    }
     
     memset (buf, 0, 80);
 	exp_len = sizeof (serveur) ;
-	recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+	if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
     printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+    }
 
 	memset (buf, 0, 80);
-    scanf("%s",tmp);
+    scanf("%80s",tmp);
 	strcpy (buf, tmp) ;
-	sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur) ;
+	if(sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur)!=-1){
         printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+    }
 
     memset (buf, 0, 80);
 	exp_len = sizeof (serveur) ;
-	recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+	if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
     printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+    }
     if(!strncmp (buf, "login incorrecte", strlen ("login incorrecte"))){
         close(s);
     
@@ -50,28 +55,31 @@ int main () {
     else{
         memset (buf, 0, 80);
     	exp_len = sizeof (serveur) ;
-    	recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+    	if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
         printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+        }
 
        /*memset (buf, 0, 80);
 	recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
         printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
-*/
-       /* memset (buf, 0, 80);
+ memset (buf, 0, 80);
     	recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
         printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
 */
 	    memset (buf, 0, 80);
-	    scanf("%s",tmp);
+	    scanf("%80s",tmp);
 	    strcpy (buf, tmp) ;
-    	sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur) ;
+    	if(sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur)!=-1){
         printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+        
+        }
 
         
         
         memset (buf,0,80);
-        recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+        if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
         printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+        }
         if(!strncmp (buf, "MDP incorrecte", strlen ("MDP incorrecte"))){
             close(s);
         }
@@ -80,8 +88,9 @@ int main () {
             
             
             memset (buf,0,80);
-            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
             printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
             
             
             /**
@@ -89,23 +98,95 @@ int main () {
             
             */
             memset(buf,0,80);
-            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
             printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+            
             /*
             j'ai séléctionné un pays
             */
             memset (buf, 0, 80);
-            scanf("%s",tmp);
+            scanf("%80s",tmp);
 	        strcpy (buf, tmp) ;
-	        sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur) ;
-            printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+	        if(sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur)!=-1){
+                printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
             
+            //vous allez commencer le jeu
             memset(buf,0,80);
-            recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len) ;
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
             printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+           
+           int tour=0;
+           while(tour<=2){
+           
+           //c'est a vous de jouer
+            memset(buf,0,80);
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+            
+            reponse=0;
+            while(!reponse){
+           
+           //choix d'action
+            memset(buf,0,80);
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+            
+            
+            //premiere instruction
+            memset (buf, 0, 80);
+            scanf("%80s",tmp);
+	        strcpy (buf, tmp) ;
+	        if(sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur)!=-1){
+            printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+            
+            //DEPLA
+            memset(buf,0,80);
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+            
+            //suite instruction
+            memset (buf, 0, 80);
+            scanf("%80s",tmp);
+	        strcpy (buf, tmp) ;
+	        if(sendto (s, buf, 80, 0, (struct sockaddr *)&serveur, sizeof serveur)!=-1){
+            printf ("J'ai envoye [%s] à %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+            
+            
+            //ACTION OK
+            memset(buf,0,80);
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
+            
+            if(!strncmp (buf, "CMD valider", strlen ("CMD valider"))){
+                reponse=1;
+    
+            }
            
             
+            }
+            tour++;
+            
+                //FIN DE TOUR
+                memset(buf,0,80);
+                if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
+                printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+                }
+            }
         
+            //FIN DE PARTIE
+            memset(buf,0,80);
+            if(recvfrom (s, buf, 80, 0, (struct sockaddr *)&serveur, &exp_len)!=-1){
+            printf ("J'ai recu [%s] de %s:%d\n", buf, inet_ntoa (serveur.sin_addr), ntohs (serveur.sin_port) ) ;
+            }
 	        close (s) ;
 	    }
 	}
